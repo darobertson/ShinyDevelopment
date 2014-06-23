@@ -1,0 +1,90 @@
+---
+title       : Iris Measurement Data - Shiny App Guide
+subtitle    : Developing Data Products (Coursera)
+author      : darobertson
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+
+---.class #id
+
+## Introduction
+
+The purpose of this shiny application is to calculate and display regression analysis regarding iris characteristics. The analysis is based on the following information selected by the user via drop-down boxes
+ - Species
+ - X Variable (Measurement)
+ - Y Variable (Measurement)
+
+
+--- .class #id
+
+## UI.R code
+
+```{r}
+library(shiny)
+
+# Define UI for dataset viewer application
+shinyUI(pageWithSidebar(
+  
+  # Application title
+  headerPanel("Iris Measurements"),
+  
+  # Sidebar with controls
+  sidebarPanel(
+    selectInput("species", "Choose a Species:", 
+                choices = c("setosa", "versicolor", "virginica")),
+    selectInput('xcol', 'X Variable', names(iris[,1:4])),
+    selectInput('ycol', 'Y Variable', names(iris[,1:4]),
+                selected=names(iris)[[2]])
+  ),    
+
+  # Plot the quantitative data selected for that species
+mainPanel(
+      
+      verbatimTextOutput("summary"),
+      
+      plotOutput("plot1")
+    )
+  ))
+```
+
+---.class #id
+
+## Server.R code 
+### Summarizes and plots the selected iris data
+
+```{r}
+library(shiny)
+library(datasets)
+data(iris)
+
+# Define server logic required to summarize and view the selected dataset
+shinyServer(function(input, output) {
+
+  # Combine the selected variables into a new data frame
+   IrisDataset <- reactive({
+    switch(input$species,
+           "Setosa" = iris[iris$Species == "setosa",],
+           "Versicolor" = iris[iris$Species == "versicolor",],
+           "Virginica" = iris[iris$Species == "virginica",]
+   selectedVariables <- reactive({
+    IrisDataset[, c(input$xcol, input$ycol)]
+  })
+
+  output$plot1 <- renderPlot({
+    plot(selectedVariables, main = c("Iris Regression for Species ", input$species))
+  })
+
+})
+```
+---.class #id
+
+
+## Usage Example
+
+
+
+
+---
