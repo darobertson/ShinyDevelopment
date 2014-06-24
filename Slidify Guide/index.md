@@ -8,6 +8,13 @@ widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 
 ---
+## Slidify Guide
+ - Title: Iris Measurement Data - Shiny App Guide
+ - Project: Developing Data Products (Coursera)
+ - Author: darobertson 
+ - Framework: io2012
+ - Shiny App: https://darobertson.shinyapps.io/FirstShiny/
+  
 ---
 ## Introduction
 
