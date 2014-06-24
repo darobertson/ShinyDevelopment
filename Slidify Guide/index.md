@@ -8,7 +8,7 @@ widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 
 ---
-
+---
 ## Introduction
 
 The purpose of this shiny application is to calculate basic descriptive statistics and plot the data set for that species' selected characteristics. The analysis is reactive and based on the following information selected by the user via drop-down boxes:
