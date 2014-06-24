@@ -21,7 +21,8 @@ The purpose of this shiny application is to calculate basic descriptive statisti
 
 ## UI.R code
 
-```{r}
+
+```r
 library(shiny)
 
 # Define UI for dataset viewer application
@@ -54,7 +55,8 @@ mainPanel(
 ## Server.R code 
 ### Summarizes and plots the selected iris data
 
-```{r}
+
+```r
 library(shiny)
 library(datasets)
 data(iris)
