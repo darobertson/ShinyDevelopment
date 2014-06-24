@@ -1,0 +1,93 @@
+---
+title       : Iris Measurement Data - Shiny App Guide
+subtitle    : Developing Data Products (Coursera)
+author      : darobertson
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+
+---
+
+## Introduction
+
+The purpose of this shiny application is to calculate basic descriptive statistics and plot the data set for that species' selected characteristics. The analysis is reactive and based on the following information selected by the user via drop-down boxes:
+ - Species
+ - X Variable (Measurement)
+ - Y Variable (Measurement)
+
+
+---
+
+## UI.R code
+
+
+```r
+library(shiny)
+
+# Define UI for dataset viewer application
+shinyUI(pageWithSidebar(
+  
+# Application title
+headerPanel("Iris Measurements"),
+  
+# Sidebar with controls
+sidebarPanel(
+    selectInput("species", "Choose a Species:", 
+                choices = c("setosa", "versicolor", "virginica")),
+    selectInput('xcol', 'X Variable', names(iris[,1:4])),
+    selectInput('ycol', 'Y Variable', names(iris[,1:4]),
+                selected=names(iris)[[2]])
+  ),    
+
+# Plot the quantitative data selected for that species
+mainPanel(
+      
+      verbatimTextOutput("summary"),
+      
+      plotOutput("plot1", height="600px")
+    )
+  ))
+```
+
+---
+
+## Server.R code 
+### Summarizes and plots the selected iris data
+
+
+```r
+library(shiny)
+library(datasets)
+data(iris)
+
+# Define server logic required to summarize and view the selected dataset
+shinyServer(function(input, output) {
+  
+# Combine the selected variables into a new data frame
+  IrisDataset <- reactive({
+           iris[iris$Species == input$species,c(input$xcol, input$ycol)]
+  })
+
+
+# Create output summary and plot
+  output$summary <- renderPrint({
+    summary.data <- IrisDataset()
+    summary(summary.data)
+})
+
+  output$plot1 <- renderPlot({
+    par(mar = c(5.1, 4.1, 0, 1))
+    plot(IrisDataset(), main = c("Iris Regression for Species ", input$species))
+    })
+  })
+```
+---
+
+
+## Usage Example
+
+<img src="https://github.com/darobertson/ShinyDevelopment/blob/master/Slidify%20Guide/figures/Screenshot.png" border="0" style="border:none;max-width:100%;" />
+</a>
+
+---
