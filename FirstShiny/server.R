@@ -18,7 +18,7 @@ shinyServer(function(input, output) {
 })
 
   output$plot1 <- renderPlot({
-             par(mar = c(5.1, 4.1, 0, 1))
-             plot(IrisDataset, main = c("Iris Regression for Species ", input$species))
-           })
+    par(mar = c(5.1, 4.1, 0, 1))
+    plot(IrisDataset(), main = c("Iris Regression for Species ", input$species))
+    })
   })
